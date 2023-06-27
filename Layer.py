@@ -21,18 +21,19 @@ Each layers holds information of (attributes):
 '''
 
 class Layer:
-    '''
-    @params:
-    * in_features  : Dimension of the features vector received by the layer
 
-    * out_features : Dimension of the features vector outputted by the layer
-
-    * act_function : Activation function
-
-    * input_layer  : If True, then the layer is an input layer
-    '''
     def __init__(self, in_features : int, out_features : int, act_function : Function, input_layer : bool):
-        
+        '''
+        @params:
+        * in_features  : Dimension of the features vector received by the layer
+
+        * out_features : Dimension of the features vector outputted by the layer
+
+        * act_function : Activation function
+
+        * input_layer  : If True, then the layer is an input layer
+        '''
+
         k = 1/in_features
         
         if input_layer : 
@@ -61,11 +62,13 @@ class Layer:
 
         self.input_layer = input_layer
 
-    '''
-    @params:
-    * prev_act : Feature vector feeded to the layer (previous activation vector)
-    '''
     def activation(self, prev_act : np.ndarray):
+        '''
+        obtains the activation of the layer and its derivative
+
+        @params:
+        * prev_act : Feature vector feeded to the layer (previous activation vector)
+        '''
         if(self.input_layer):
             self.current_activation = prev_act
         else:
@@ -79,26 +82,33 @@ class Layer:
     
     #------------GETTERS------------#
     def getWeights(self):
+        '''returns the weights matrix of the layer'''
         return self.weights
 
     def getBias(self):
+        '''returns the bias vector of the layer'''
         return self.bias
 
     def getActivation(self):
+        '''returns the activation vector of the layer and its derivative'''
         return self.current_activation, self.current_activation_derivative 
 
-    def getActFunction(self):
+    def getActFunction(self) -> callable:
+        '''returns the activation function of the layer'''
         return self.act_function
     
     def getPreviousWeights(self):
+        '''returns the weights matrix of the layer in the previous iteration'''
         return self.prev_weights
     #-------------------------------#
 
     #------------SETTERS------------#
     def setWeights(self, new_weights : np.ndarray):
+        '''sets the weights matrix of the layer'''
         self.prev_weights = self.weights
         self.weights = new_weights
     
     def setBias(self, new_bias : np.ndarray):
+        '''sets the bias vector of the layer'''
         self.bias = new_bias
     #-------------------------------#

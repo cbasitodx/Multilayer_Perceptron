@@ -14,36 +14,45 @@ Each MLP holds information of (attributes):
 '''
 
 class MultiLayerPerceptron:
+
     def __init__(self, *layers, learning_rate = 0.1, eta = 0.1):
+        '''
+        @params:
+        * layers : list of layers that make up the MLP
+    
+        * learning_rate : learning rate for fitting the data to the MLP
+    
+        * eta           : referring to the greek letter, is a parameter used to calculate the momentum (term that is going to help us achieve faster convergence)
+        '''
         self.layers = layers
         self.learning_rate = learning_rate
         self.eta = eta
     
-    '''
-    forwards an input vector through the MLP, returning an output vector
-
-    @params:
-    * input_vector : vector to be forwarded
-
-    @returns:
-    * activation : activation of the last layer for the forwarded vector
-    '''
     def forward(self, input_vect : np.ndarray):
+        '''
+        forwards an input vector through the MLP, returning an output vector
+
+        @params:
+        * input_vector : vector to be forwarded
+
+        @returns:
+        * activation : activation of the last layer for the forwarded vector
+        '''
         activation = self.layers[0].activation(input_vect)
         for i in range(1, len(self.layers)):
             activation = self.layers[i].activation(activation)
         return activation
 
-    '''
-    using the back propagation algorithm, we adjust the weights and biases of the net by applying the gradient descent rule on
-    each one
-
-    @params:
-    * expected   : expected output of the net
-    * input_vect : training example 
-    '''
     def fitOne(self, expected : np.ndarray, input_vect : np.ndarray):
         
+        '''
+        using the back propagation algorithm, we adjust the weights and biases of the net by applying the gradient descent rule on
+        each one
+
+        @params:
+        * expected   : expected output of the net
+        * input_vect : training example 
+        '''
         # First, we define some constants:
         C = len(self.layers) - 1    # Number of layers (for indexing self.layers)
 
@@ -122,10 +131,21 @@ class MultiLayerPerceptron:
 
             current_layer.setBias(U)
 
-    '''
-    
-    '''
     def fit(self, expected_vector : np.ndarray, training_examples : np.ndarray, thresh : int, num_iters : int):
+        '''
+        given an array of training examples and an array of the expected outputs for each one,
+        this method trains the Neural Network to learn this examples.
+        For every iteration through all of the examples (called an 'epoch') the method prints
+        to console the training error, wich is the averaged norm of the vector of errors.
+        The vector of errors is a vector in wich index 'i' is half the quadratic error made
+        for the 'i'-th training example.
+
+        @params:
+        * expected_vector   : vector of expected outputs
+        * training_examples : vector of training examples
+        * thres             : minimum accepted error (when reached, we stop iterating)
+        * num_iters         : minimum accepted number of iterations (epochs) (when reached, we stop iterating)
+        '''
         N = len(training_examples)
         error_vect = [None]*N
         training_error = 9999
