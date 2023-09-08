@@ -66,7 +66,7 @@ class MultiLayerPerceptron:
         # We will be considering:
         # 
         # * current_layer  : layer C-t   (t in {0,...,C-2})
-        # * next_layer     : layer C-t-1
+        # * next_layer     : layer C-t-1 (Note that we define 'next' in a backwards sense)
         # * previous_layer : layer C-t+1
         # * n_t            : number of neurons of the t layer
         # * y(n)           : output of the net for the n-th training example (in code: y(n) = y) 
